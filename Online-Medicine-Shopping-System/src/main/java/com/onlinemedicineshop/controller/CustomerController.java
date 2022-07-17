@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.onlinemedicineshop.entity.Customer;
 import com.onlinemedicineshop.entity.Order;
 import com.onlinemedicineshop.exception.CustomerNotFoundException;
-import com.onlinemedicineshop.exception.InvalidCredentialsException;
 import com.onlinemedicineshop.exception.NoCustomerPresentException;
 import com.onlinemedicineshop.exception.OrderNotFoundException;
 import com.onlinemedicineshop.exception.UnauthorizedAccessException;

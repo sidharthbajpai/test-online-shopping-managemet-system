@@ -39,8 +39,8 @@ public class SecurityConfigure {
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
 			.authorizeRequests()
-			.antMatchers("/hello").hasRole("USER")
-			.antMatchers("customer/viewAuthorized").hasRole("USER")
+			.antMatchers("/hello").hasRole("ADMIN")
+			.antMatchers("/**").hasAnyRole("ADMIN", "USER")
 			.anyRequest().authenticated();
 		http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 		
