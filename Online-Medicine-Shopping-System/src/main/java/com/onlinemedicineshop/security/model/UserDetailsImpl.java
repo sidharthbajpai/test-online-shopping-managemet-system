@@ -2,7 +2,6 @@ package com.onlinemedicineshop.security.model;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,9 +19,6 @@ public class UserDetailsImpl implements UserDetails {
 		this.email = user.getEmail();
 		this.password = user.getPassword();
 		this.roles = roles;
-		//TODO Delete Below
-		System.out.println("username " + email + " password - " + password + " roles - "
-				+ roles.stream().map(p -> p.getAuthority()).collect(Collectors.toList()));
 	}
 
 	@Override

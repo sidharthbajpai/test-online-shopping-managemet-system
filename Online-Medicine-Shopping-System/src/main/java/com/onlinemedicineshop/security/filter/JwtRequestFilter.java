@@ -32,19 +32,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 			final String authorizationHeader = request.getHeader("Authorization");
 
-	        String username = null;
 	        String jwt = null;
-//	        List<SimpleGrantedAuthority> roles = null;
 
 			if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
 	            jwt = authorizationHeader.substring(7);
-//	            username = jwtUtil.extractUsername(jwt);
-//	            roles = jwtUtil.extractRoles(jwt);
-	            username = jwt; //TODO change this
 	        }
 		
-			if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-	            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+			if (jwt != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+	            UserDetails userDetails = this.userDetailsService.loadUserByUsername(jwt);
 	            if (jwtUtil.validateToken(jwt, userDetails)) {
 	                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
 	                        userDetails, null, userDetails.getAuthorities());
