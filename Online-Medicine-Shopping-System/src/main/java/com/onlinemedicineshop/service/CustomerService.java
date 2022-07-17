@@ -16,5 +16,7 @@ public interface CustomerService {
 
 	public void deleteCustomerById(long id);
 	
+	public Optional<Customer> getCustomerByEmail(String email);
+	
 	public Optional<User> getCustomerAsUserByEmail(String email);
 }

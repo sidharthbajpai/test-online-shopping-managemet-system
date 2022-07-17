@@ -11,16 +11,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.onlinemedicineshop.entity.Customer;
 import com.onlinemedicineshop.entity.Order;
 import com.onlinemedicineshop.exception.CustomerNotFoundException;
+import com.onlinemedicineshop.exception.InvalidCredentialsException;
 import com.onlinemedicineshop.exception.NoCustomerPresentException;
 import com.onlinemedicineshop.exception.OrderNotFoundException;
+import com.onlinemedicineshop.exception.UnauthorizedAccessException;
+import com.onlinemedicineshop.security.model.UserDetailsImpl;
 import com.onlinemedicineshop.service.CustomerService;
 import com.onlinemedicineshop.service.OrderService;
+import com.onlinemedicineshop.util.JwtUtil;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -30,6 +35,8 @@ public class CustomerController {
 	private CustomerService customerService;
 	@Autowired
 	private OrderService orderService;
+	@Autowired
+	private JwtUtil jwtUtil;
 
 	@GetMapping("")
 	public ResponseEntity<List<Customer>> getAllCustomers() {
@@ -45,6 +52,23 @@ public class CustomerController {
 		Optional<Customer> customer = customerService.findCustomerById(id);
 		if (customer.isEmpty()) {
 			throw new CustomerNotFoundException("No customer found with id: " + id);
+		}
+		return ResponseEntity.ok(customer.get());
+	}
+	
+	@GetMapping("/get")
+	public ResponseEntity<Customer> findCustomerByUniqueId(@RequestHeader("Authorization") String authorizationHeader) {
+		String jwt = null;
+		if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            jwt = authorizationHeader.substring(7);
+        } else {
+        	throw new UnauthorizedAccessException("Access Denied!");
+        }
+		String email = jwtUtil.extractEmail(jwt);
+		Optional<Customer> customer = customerService.getCustomerByEmail(email);
+		boolean isCustomerValid = jwtUtil.validateToken(jwt, new UserDetailsImpl(customer.get(), jwtUtil.extractRoles(jwt)));
+		if(!isCustomerValid) {
+			throw new UnauthorizedAccessException("Access Denied!");
 		}
 		return ResponseEntity.ok(customer.get());
 	}

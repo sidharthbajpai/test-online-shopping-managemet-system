@@ -9,6 +9,8 @@ import com.onlinemedicineshop.security.model.User;
 
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 	
+	Optional<Customer> getCustomerByEmail(String email);
+	
 	Optional<User> getCustomerAsUserByEmail(String email);
 	
 }

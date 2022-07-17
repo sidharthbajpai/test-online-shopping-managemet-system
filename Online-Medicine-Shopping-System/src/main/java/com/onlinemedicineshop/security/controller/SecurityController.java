@@ -26,35 +26,21 @@ public class SecurityController {
 	private UserDetailsServiceImpl userDetailsServiceImpl;
 	@Autowired
 	private JwtUtil jwtUtil;
-	
-	//TODO delete this method (its for testing only)
+
+	// TODO delete this method (its for testing only)
 	@GetMapping("/hello")
 	public String hello() {
 		return "Hello World";
 	}
-	
+
 	@PostMapping("/authenticate")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
-		System.out.println("inside the authenticate");
-		System.out.println(authenticationRequest);
 		String jwtc = jwtUtil.generateTokenFromRequest(authenticationRequest);
-		System.out.println("token in auth - " + jwtc);
 		try {
-			System.out.println("authenticate started");
-		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtc, authenticationRequest.getPassword()));
-		System.out.println("authenticate done");
-		} catch(BadCredentialsException e) {
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtc, authenticationRequest.getPassword()));
+		} catch (BadCredentialsException e) {
 			throw new Exception("Incorrect Username or Password", e);
 		}
-//		List<SimpleGrantedAuthority> roles = new ArrayList<>();
-//		Boolean isAdmin = authenticationRequest.getIsAdmin();
-//		Boolean isUser = authenticationRequest.getIsUser();
-//		if(isAdmin != null && isAdmin) {
-//			roles.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-//		}
-//		if(isUser != null && isUser) {
-//			roles.add(new SimpleGrantedAuthority("ROLE_USER"));			
-//		}
 		final UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(jwtc);
 		final String jwt = jwtUtil.generateToken(userDetails);
 		return ResponseEntity.ok(new AuthenticationResponse(jwt));

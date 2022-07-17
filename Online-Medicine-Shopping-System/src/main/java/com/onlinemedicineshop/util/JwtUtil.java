@@ -1,16 +1,5 @@
 package com.onlinemedicineshop.util;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
-
-import com.onlinemedicineshop.security.model.AuthenticationRequest;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -19,7 +8,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-@Service
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+
+import com.onlinemedicineshop.security.model.AuthenticationRequest;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+
+@Component
 public class JwtUtil {
 
 	private String SECRET_KEY = "secret";
@@ -56,9 +56,7 @@ public class JwtUtil {
 		if (roles.contains(new SimpleGrantedAuthority("ROLE_USER"))) {
 			claims.put("isUser", true);
 		}
-		System.out.println("inside generate tolen. \n granted auth. \n is admin = " + roles.contains(new SimpleGrantedAuthority("ROLE_ADMIN")) + " is user = " + roles.contains(new SimpleGrantedAuthority("ROLE_USER")));
 		String token = createToken(claims, userDetails.getUsername());
-		System.out.println(token);
 		return token;
 	}
 	

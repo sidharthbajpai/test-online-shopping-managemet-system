@@ -93,6 +93,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(InvalidCredentialsException.class)
 	public ResponseEntity<ErrorDetails> handleInvalidCredentialsException(InvalidCredentialsException exception, WebRequest request) {
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(), request.getDescription(false));
-		return new ResponseEntity<ErrorDetails>(errorDetails, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<ErrorDetails>(errorDetails, HttpStatus.UNPROCESSABLE_ENTITY);
+	}
+	
+	@ExceptionHandler(UnauthorizedAccessException.class)
+	public ResponseEntity<ErrorDetails> handleUnauthorizedAccessException(UnauthorizedAccessException exception, WebRequest request) {
+		ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(), request.getDescription(false));
+		return new ResponseEntity<ErrorDetails>(errorDetails, HttpStatus.UNPROCESSABLE_ENTITY);
 	}
 }

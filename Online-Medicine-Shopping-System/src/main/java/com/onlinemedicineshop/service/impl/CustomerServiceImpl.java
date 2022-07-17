@@ -42,5 +42,10 @@ public class CustomerServiceImpl implements CustomerService {
 	public Optional<User> getCustomerAsUserByEmail(String email) {
 		return customerRepository.getCustomerAsUserByEmail(email);
 	}
+	
+	@Override
+	public Optional<Customer> getCustomerByEmail(String email) {
+		return customerRepository.getCustomerByEmail(email);
+	}
 
 }

@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.onlinemedicineshop.entity.Admin;
 import com.onlinemedicineshop.exception.AdminAlreadyRegisteredException;
 import com.onlinemedicineshop.exception.AdminNotFoundException;
-import com.onlinemedicineshop.exception.InvalidCredentialsException;
 import com.onlinemedicineshop.service.AdminService;
 
 
@@ -61,21 +60,4 @@ public class AdminController {
 		adminService.deleteAdminById(id);
 	}
 	
-	@PostMapping("/login")
-	public ResponseEntity<Admin> login(@RequestBody Admin admin) {
-		String email = admin.getEmail();
-		String password = admin.getPassword();
-		List<Admin> adminList = adminService.getAllAdmins();
-		Optional<Admin> matchedAdminOptional = adminList.stream().filter(p -> p.getEmail().equals(email)).findFirst();
-		if(matchedAdminOptional.isEmpty()) {
-			throw new InvalidCredentialsException("Entered email did not match any data");
-		}
-		
-		Admin matchedAdmin = matchedAdminOptional.get();
-		if(matchedAdmin.getPassword().equals(password)) {
-			return ResponseEntity.ok(matchedAdmin);
-		} else {
-			throw new InvalidCredentialsException("Entered password is incorrect!");
-		}
-	}
 }
