@@ -1,6 +1,8 @@
 package com.onlinemedicineshop.exception;
 
-public class InvalidCredentialsException extends RuntimeException {
+import org.springframework.security.core.AuthenticationException;
+
+public class InvalidCredentialsException extends AuthenticationException {
 	private static final long serialVersionUID = 1111952031707699010L;
 
 	public InvalidCredentialsException(String message) {

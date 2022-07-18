@@ -1,6 +1,8 @@
 package com.onlinemedicineshop.exception;
 
-public class OrderNotFoundException extends RuntimeException {
+import org.springframework.security.core.AuthenticationException;
+
+public class OrderNotFoundException extends AuthenticationException {
 	private static final long serialVersionUID = -3241780899946747676L;
 	
 	public OrderNotFoundException(String message) {

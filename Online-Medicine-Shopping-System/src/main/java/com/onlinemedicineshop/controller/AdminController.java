@@ -44,9 +44,9 @@ public class AdminController {
 
 	@PostMapping("/save")
 	public ResponseEntity<Admin> saveAdmin(@RequestBody Admin admin) {
-		if(!adminService.getAllAdmins().isEmpty()) {
-			throw new AdminAlreadyRegisteredException("An Admin is already registered. Please login!");
-		}
+//		if(!adminService.getAllAdmins().isEmpty()) {
+//			throw new AdminAlreadyRegisteredException("An Admin is already registered. Please login!");
+//		}
 		Admin savedAdmin = adminService.saveAdmin(admin);
 		return ResponseEntity.ok(savedAdmin);
 	}

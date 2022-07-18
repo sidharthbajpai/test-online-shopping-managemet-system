@@ -1,6 +1,8 @@
 package com.onlinemedicineshop.exception;
 
-public class NoCustomerPresentException extends RuntimeException {	
+import org.springframework.security.core.AuthenticationException;
+
+public class NoCustomerPresentException extends AuthenticationException {	
 	private static final long serialVersionUID = -6125014552383743618L;
 
 	public NoCustomerPresentException(String message) {

@@ -1,6 +1,8 @@
 package com.onlinemedicineshop.exception;
 
-public class CustomerNotFoundException extends RuntimeException {
+import org.springframework.security.core.AuthenticationException;
+
+public class CustomerNotFoundException extends AuthenticationException {
 	private static final long serialVersionUID = 1921809915216820919L;
 	
 	public CustomerNotFoundException(String message) {
