@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -22,11 +24,11 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 public class Medicine {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Min(1)
 	private long id;
-	// @NotNull(message = "Name may not be null")
 	private String name;
-	// @Min(1)
-	// @Max(50000)
+	@Min(1)
+	@Max(500000)
 	private double price;
 	private String companyName;
 
@@ -36,12 +38,13 @@ public class Medicine {
 	private Category category;
 
 	@OneToMany(mappedBy = "medicine", cascade = CascadeType.ALL)
-	@JsonManagedReference(value="orders-medicine")
+	@JsonManagedReference(value = "orders-medicine")
 	private List<Order> orders;
 
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private LocalDate manufacturingDate;
+	
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private LocalDate expiryDate;

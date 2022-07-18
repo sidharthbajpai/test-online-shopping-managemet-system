@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.onlinemedicineshop.entity.Customer;
@@ -30,6 +31,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public Customer saveCustomer(Customer customer) {
+		customer.setPassword(new BCryptPasswordEncoder().encode(customer.getPassword()));
 		return customerRepository.save(customer);
 	}
 

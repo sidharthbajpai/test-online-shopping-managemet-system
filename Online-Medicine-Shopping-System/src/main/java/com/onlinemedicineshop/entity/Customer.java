@@ -9,6 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.onlinemedicineshop.security.model.User;
@@ -17,11 +20,17 @@ import com.onlinemedicineshop.security.model.User;
 public class Customer implements User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	@Min(1)
+	long id;
 
 	private String name;
+	
 	@Column(unique = true)
-	private String email;
+	@NotNull (message = "required")
+	String email;
+	
+	@NotNull
+	@Size(min = 6, message = "Password must be atleast 6 characters long")
 	private String password;
 
 	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)

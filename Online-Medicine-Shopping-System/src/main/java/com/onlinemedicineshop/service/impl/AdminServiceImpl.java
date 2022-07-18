@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.onlinemedicineshop.entity.Admin;
@@ -28,6 +29,7 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public Admin saveAdmin(Admin admin) {
+		admin.setPassword(new BCryptPasswordEncoder().encode(admin.getPassword()));
 		return adminRepository.save(admin);
 	}
 
